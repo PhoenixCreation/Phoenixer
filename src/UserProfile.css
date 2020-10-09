@@ -1,0 +1,84 @@
+.temp{
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+}
+.User{
+  display: flex;
+  flex-direction: column;
+}
+.User__upper{
+  display: flex;
+  padding: 25px;
+  border-bottom: 1px lightgray solid;
+}
+.User__upperLeft .MuiAvatar-circle{
+  width: 130px;
+  height: 130px;
+  padding: 15px 50px;
+}
+.User__upperLeft .MuiAvatar-circle img{
+  border: 1px gray solid;
+  border-radius: 50%;
+}
+.User__upperRight{
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+}
+.User__upperRightUsername{
+  /* font-size: 2.1rem; */
+  font-weight: lighter;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+}
+.User__upperRightUsername .User__upperRightUsernameU{
+  font-size: 2.1rem;
+  margin-right: 25px;
+}
+.User__upperRightUsername .MuiButton-contained{
+  background-color: rgb(0,149,246) !important;
+  font-size: .8rem;
+  padding: 5px 5px !important;
+  height: max-content;
+  text-transform: none !important;
+  color: white !important;
+  font-weight: 600;
+}
+.User__upperRightMeta{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.User__upperRightDescription{
+  padding: 10px 0;
+}
+.User__posts{
+  display: flex;
+  flex-direction: column;
+}
+.User__postsHeading{
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+  color: #777;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+.User__postsHeadinOption{
+  cursor: pointer;
+}
+.User__postsHeading .active{
+  color: #000;
+  border-top: 2px solid gray;
+  margin-top: -20px;
+  padding-top: 20px;
+}
+.followerscount,
+.followingcount{
+  cursor: pointer;
+}
