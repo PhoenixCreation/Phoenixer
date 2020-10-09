@@ -9,10 +9,13 @@ import {
 import { db, auth, storage } from './firebase'
 import User from './user'
 import UserProfile from './UserProfile'
+import ImageUpload from './ImageUpload'
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/avatar'
 import {Button, Input} from '@material-ui/core';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+
 
 
 function getModalStyle() {
@@ -42,12 +45,13 @@ function App() {
   const [user,setUser] = useState(null)
   const [openSignIn,setOpenSignIn] = useState(false)
   const [openSignUp,setOpenSignUp] = useState(false)
+  const [openPost,setOpenPost] = useState(false)
   const [username,setUsername] = useState('')
   const [password,setPassword] = useState('')
   const [email,setEmail] = useState('')
   const [userImage,setUserImage] = useState(null)
   const [avatarURL,setAvatarURL] = useState(null)
-
+  const [postIDS,setPostIDS] = useState([])
 
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -75,6 +79,35 @@ function App() {
         unsubscribe()
       }
     },[user,username])
+
+  useEffect(() =>{
+    if(user && user.displayName){
+      db.collection('userinfo').doc(user.displayName).onSnapshot((doc) => {
+        let tempPOSTS = []
+        let following = doc.data().following
+        for (var i = 0; i < following.length; i++) {
+          db.collection('userinfo').doc(following[i]).onSnapshot((uinfo) => {
+            let tpost = uinfo.data().posts;
+
+
+            // TODO: DELETION IS NOT WORKING......
+
+            setPostIDS((currPostIDS) => [...new Set([...currPostIDS,...tpost])])
+
+
+
+
+
+          })
+        }
+
+      })
+
+    }
+  },[user])
+  useEffect(() => {
+    console.log(postIDS);
+  },[postIDS])
 
   const handleChange = (e) => {
     if(e.target.files[0]){
@@ -156,6 +189,7 @@ function App() {
         <div className="app__headerMenu">
         {user ? (
           <div className="app__headerMenuAuth">
+          <Button type="button" name="button" onClick={() => setOpenPost(true)} endIcon={<CloudUploadIcon />}></Button>
           <Link to="/user">
           <Avatar src={avatarURL} alt={username} />
           </Link>
@@ -237,6 +271,14 @@ function App() {
           </form>
         </div>
 
+      </div>
+      </Modal>
+      <Modal
+        open={openPost}
+        onClose={() => setOpenPost(false)}
+      >
+      <div style={modalStyle} className={classes.paper}>
+      <ImageUpload user={user} />
       </div>
       </Modal>
 
