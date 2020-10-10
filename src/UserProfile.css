@@ -82,3 +82,12 @@
 .followingcount{
   cursor: pointer;
 }
+.User__follower{
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 4px;
+  border: 1px lightgray solid;
+}

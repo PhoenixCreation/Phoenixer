@@ -7,7 +7,7 @@ import Avatar from '@material-ui/core/avatar'
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, Input} from '@material-ui/core';
-
+import { Link } from 'react-router-dom'
 
 function getModalStyle() {
   const top = 50;
@@ -125,10 +125,6 @@ function UserProfile({ crntuser }) {
               </div>
               <div className="User__postsInfo">
                 <img src="https://source.unsplash.com/random/200x200?sig=1" />
-                <img src="https://source.unsplash.com/random/200x200?sig=2" />
-                <img src="https://source.unsplash.com/random/200x200?sig=3" />
-                <img src="https://source.unsplash.com/random/200x200?sig=3" />
-                <img src="https://source.unsplash.com/random/200x200?sig=3" />
               </div>
             </div>
 
@@ -140,7 +136,16 @@ function UserProfile({ crntuser }) {
             <div style={modalStyle} className={classes.paper}>
             {
               profileInfo.followers.map((follower) => (
-                follower
+                <Link to={"/user/"+follower} >
+                <div className={"User__follower " +follower} onClick={() => setOpenFollowers(false)}>
+                  <div className="User__followerAvatar">
+                    <Avatar src="https://google.com" alt={follower} />
+                  </div>
+                  <div className="User__followerUserInfo">
+                    <div className="User__followerUserInfoUsername">{follower}</div>
+                  </div>
+                </div>
+                </Link>
               ))
             }
             </div>
@@ -153,7 +158,17 @@ function UserProfile({ crntuser }) {
             <div style={modalStyle} className={classes.paper}>
             {
               profileInfo.following.map((following) => (
-                following
+                <Link to={"/user/"+following}>
+                <div className={"User__follower " +following}>
+
+                  <div className="User__followerAvatar">
+                    <Avatar src="https://google.com" alt={following} />
+                  </div>
+                  <div className="User__followerUserInfo">
+                    <div className="User__followerUserInfoUsername">{following}</div>
+                  </div>
+                </div>
+                </Link>
               ))
             }
             </div>
