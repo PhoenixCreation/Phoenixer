@@ -2,7 +2,13 @@
   margin: 0;
   padding: 0;
 }
-
+a{
+  text-decoration: none;
+  color: inherit;
+}
+a:hover{
+  text-decoration: none;
+}
 .app__header{
   padding: 10px;
   display: flex;
@@ -17,11 +23,20 @@
 .app__headerMenu{
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .app__headerMenuAuth{
   display: flex;
   justify-content: space-between;
+  gap: 20px;
 
+}
+
+.MuiButtonBase-root{
+  color: black !important;
+}
+.MuiButtonBase-root:hover{
+  background-color: rgba(0,0,0,.13) !important;
 }
 .authButton{
   margin: 10px 10px;

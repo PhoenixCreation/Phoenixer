@@ -10,14 +10,22 @@ import { db, auth, storage } from './firebase'
 import User from './user'
 import UserProfile from './UserProfile'
 import ImageUpload from './ImageUpload'
+import Post from './Post'
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/avatar'
-import {Button, Input} from '@material-ui/core';
+import {Button, Input, IconButton} from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 
-
+// TODO: followers and following with links....
+// TODO: Search for users .... IF successed: Search for posts...
+// TODO: Sort the posts as per their time...PROBLEM: Each post is rendered individualy so how to track of that?
+// TODO: Add a dummy post before its loaded...
+// TODO: Do something for uerAvatar at all levels... it can't be added statically to everywhere...
+// TODO: Move the LOG OUT button to the "/user" Page and make it working properly
+// TODO: What about videos and tags in POST? can you do that too?...
+// TODO: DELETION of comment after making it....[LAST THING TO DO]
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -49,9 +57,11 @@ function App() {
   const [username,setUsername] = useState('')
   const [password,setPassword] = useState('')
   const [email,setEmail] = useState('')
+  const [searchText,setSearchText] = useState('')
   const [userImage,setUserImage] = useState(null)
   const [avatarURL,setAvatarURL] = useState(null)
   const [postIDS,setPostIDS] = useState([])
+  const [searchResults,setSearchResults] = useState([])
 
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -63,6 +73,8 @@ function App() {
           //USer has logged in
           //console.log(authUser)
           setUser(authUser)
+          setPostIDS([])
+
           if(authUser.photoURL != null){
             setAvatarURL(authUser.photoURL)
           }
@@ -71,6 +83,7 @@ function App() {
         else{
           //logged out
           setUser(null)
+          setPostIDS([])
         }
 
       })
@@ -89,14 +102,9 @@ function App() {
           db.collection('userinfo').doc(following[i]).onSnapshot((uinfo) => {
             let tpost = uinfo.data().posts;
 
-
             // TODO: DELETION IS NOT WORKING......
 
             setPostIDS((currPostIDS) => [...new Set([...currPostIDS,...tpost])])
-
-
-
-
 
           })
         }
@@ -105,9 +113,10 @@ function App() {
 
     }
   },[user])
-  useEffect(() => {
-    console.log(postIDS);
-  },[postIDS])
+
+  // useEffect(() => {
+  //   console.log(searchResults);
+  // },[searchResults])
 
   const handleChange = (e) => {
     if(e.target.files[0]){
@@ -177,6 +186,19 @@ function App() {
   }
 
 
+  const handleSearch = (event) => {
+    // setSearchResults([])
+    setSearchText(event.target.value)
+    let s = event.target.value;
+    db.collection('userinfo').get().then((query) => {
+      query.forEach((item, i) => {
+        if (item.id.match(s) !== null || s.match(item.id) !== null){
+          console.log(item.data().username);
+        }
+      });
+    })
+  }
+
 
 
   return (
@@ -184,16 +206,27 @@ function App() {
     <Router>
       <div className="app__header">
         <div className="app__headerLogo">
-          Phoenixer
+          <Link to="/">Phoenixer</Link>
+        </div>
+        <div className="app__headerSearch">
+          <Input
+            type="text"
+            value={searchText}
+            onChange={handleSearch}
+            placeholder="Search..."
+          />
+          <div className="app__headerSearchresult"></div>
         </div>
         <div className="app__headerMenu">
         {user ? (
           <div className="app__headerMenuAuth">
-          <Button type="button" name="button" onClick={() => setOpenPost(true)} endIcon={<CloudUploadIcon />}></Button>
+          <IconButton onClick={() => setOpenPost(true)} >
+            <CloudUploadIcon />
+          </IconButton>
           <Link to="/user">
           <Avatar src={avatarURL} alt={username} />
           </Link>
-          <Button variant="outlined" color="secondary" onClick={() => auth.signOut()} >Log Out</Button>
+          <Button variant="outlined" color="secondary" onClick={() => {auth.signOut();setUser(null)}} >Log Out</Button>
           </div>
         ) : (
           <div className="app__headerMenuAuth">
@@ -205,6 +238,7 @@ function App() {
 
         </div>
       </div>
+
 
 
       <Modal //Sgn UP model
@@ -285,6 +319,15 @@ function App() {
 
 
         <Switch>
+          <Route path="/" exact>
+            <div className="app__posts">
+            {
+              postIDS.map((postID) => (
+                <Post postID={postID} user={user} />
+              ))
+            }
+            </div>
+          </Route>
           <Route path="/post" exact>
             <div>post</div>
           </Route>

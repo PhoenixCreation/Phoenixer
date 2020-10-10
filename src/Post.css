@@ -1,0 +1,44 @@
+
+.post{
+  background-color: #fafafa;
+  max-width: 530px;
+  border: 1px solid grey;
+  margin-bottom: 40px;
+  align-self: center;
+  margin: auto;
+  margin-bottom: 20px;
+}
+.post__image{
+  width: 100%;
+  object-fit: contain;
+}
+.post__header{
+  display: flex;
+  align-items: center;
+  padding: 20px 10px;
+}
+.post__headerAvatar{
+  margin-right: 10px;
+}
+.post__footer{
+  padding: 20px 10px;
+  padding-bottom: 0;
+}
+.post__time{
+  padding: 0px 10px 20px 10px;
+  font-size: .8rem;
+}
+.post__commentbox{
+  padding: 20px 10px;
+}
+.post__commentadder{
+  display: flex;
+  justify-content: space-between;
+}
+.post__commentadderinput{
+  flex: 1;
+}
+.post__likesection{
+  display: flex;
+  align-items: center;
+}
