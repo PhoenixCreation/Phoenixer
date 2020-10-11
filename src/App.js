@@ -323,7 +323,7 @@ function App() {
             <div className="app__posts">
             {
               postIDS.map((postID) => (
-                <Post postID={postID} user={user} />
+                <Post key={postID} postID={postID} user={user} />
               ))
             }
             </div>

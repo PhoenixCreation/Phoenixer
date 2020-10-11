@@ -11,6 +11,7 @@
 .post__image{
   width: 100%;
   object-fit: contain;
+  background-color: rgb(240,240,240);
 }
 .post__header{
   display: flex;
@@ -41,4 +42,21 @@
 .post__likesection{
   display: flex;
   align-items: center;
+}
+.dummy{
+  color: rgba(0,0,0,0);
+  background-image: linear-gradient(45deg,gray,lightgray,gray);
+  /* animation: dummyRoll infinite 2s linear; */
+  border-width: 2px;
+  border-style: solid;
+  border-top: gray;
+  border-right: lightgray;
+  border-bottom: gray;
+  border-left: lightgray;
+}
+
+.dummyImage{
+  width: 100%;
+  height: 400px;
+  /* background-color: red; */
 }

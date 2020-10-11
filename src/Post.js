@@ -72,7 +72,26 @@ function Post({postID, user }) {
     setCommentText('')
   }
   if (!postInfo){
-    return (<>Check</>);
+    return (
+      <div className="post">
+        <div className="post__header">
+          <Avatar src="https://google.com" className="post__headerAvatar dummy" />
+          <h3 className="dummy">Dummy</h3>
+        </div>
+        <img className="post__image dummy dummyImage" src="https://google.com" />
+        <div className="post__likesection dummy">
+        <FavoriteBorderIcon />
+
+        <div className="post__likestotal dummy">0</div>
+        </div>
+        <div className="post__footer dummy"><strong>Dummy : </strong>Dummy caption</div>
+         <div className="post__time dummy">ddd, MMM DD YYYY HH:mm</div>
+
+        <div className="post__commentbox dummy">
+          Dummy: Dummy comment
+        </div>
+      </div>
+    );
   }
 
   return (
