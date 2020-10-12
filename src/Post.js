@@ -39,18 +39,14 @@ function Post({postID, user }) {
     db.collection('posts').doc(postID).get().then((doc) => {
       var data = doc.data().likes
       if(data.includes(user.displayName)){
-        // setLiked(false)
         db.collection('posts').doc(postID).update({
           likes: firebase.firestore.FieldValue.arrayRemove(user.displayName)
         })
-        // setLikeCount(data.length - 1)
       }
       else{
-        // setLiked(true)
         db.collection('posts').doc(postID).update({
           likes: firebase.firestore.FieldValue.arrayUnion(user.displayName)
         })
-        // setLikeCount(data.length + 1)
 
       }
     })
@@ -100,7 +96,7 @@ function Post({postID, user }) {
         <Avatar src={postInfo.userAvatar} alt={postInfo.username} className="post__headerAvatar" />
         <Link to={"user/"+postInfo.username} ><h3>{postInfo.username}</h3></Link>
       </div>
-      <img className="post__image" src={postInfo.imageURL} alt="Some beautiful movements" />
+      <img className="post__image" src={postInfo.imageURL} alt="Some beautiful movements" onDoubleClick={toggleLike} />
       <div className="post__likesection">
       {user?.displayName && liked ? (
         <IconButton onClick={toggleLike}>

@@ -78,6 +78,47 @@
   margin-top: -20px;
   padding-top: 20px;
 }
+.User__postsInfo{
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(230px,1fr));
+  grid-row-gap: 5px;
+  justify-content: center;
+}
+.User__postsInfoPost{
+  justify-self: center;
+  position: relative;
+}
+.User__postsInfoPost img{
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  background-color: rgb(240,240,240);
+  border: 1px lightgray solid;
+}
+.post__meta{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: white;
+  display: none;
+}
+.post__metaLike,
+.post__metaComments{
+  display: flex;
+  margin-left: 5px;
+}
+.User__postsInfoPost img:hover{
+  /* transform: scale(0.8); */
+  filter: brightness(50%);
+}
+
+.User__postsInfoPost img:hover ~ .post__meta{
+  display: flex;
+  /* background-color: red; */
+
+}
+
 .followerscount,
 .followingcount{
   cursor: pointer;

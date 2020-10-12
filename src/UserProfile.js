@@ -8,6 +8,8 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, Input} from '@material-ui/core';
 import { Link } from 'react-router-dom'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import CommentOutlinedIcon from '@material-ui/icons/CommentOutlined';
 
 function getModalStyle() {
   const top = 50;
@@ -39,6 +41,7 @@ function UserProfile({ crntuser }) {
   const [sameUser,setSameUser] = useState(false)
   const [isFollowing,setIsFollowing] = useState(false)
   const [isFollowingMsg,setIsFollowingMsg] = useState("Follow")
+  const [postsInfo,setPostsinfo] = useState([])
 
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -51,6 +54,7 @@ function UserProfile({ crntuser }) {
     }
     else{
       db.collection('userinfo').doc(profile).onSnapshot((doc) => {
+        setPostsinfo([])
         setProfileInfo(doc.data())
       })
     }
@@ -69,6 +73,19 @@ function UserProfile({ crntuser }) {
       }
     }
   },[profileInfo])
+
+  useEffect(() => {
+    db.collection('userinfo').doc(profile).onSnapshot((doc) => {
+      var postIDS = doc.data().posts
+      for (var i = 0; i < postIDS.length; i++) {
+        db.collection('posts').doc(postIDS[i]).get().then((doc) => {
+          let postinfo = doc.data()
+          // console.log(postinfo);
+          setPostsinfo((currPostsInfo) => [...currPostsInfo,postinfo])
+        })
+      }
+    })
+  },[])
 
   if(sameUser){
     return <Redirect to="/user" />;
@@ -124,7 +141,21 @@ function UserProfile({ crntuser }) {
                 <div className="User__postsHeadinOption">Tagged</div>
               </div>
               <div className="User__postsInfo">
-                <img src="https://source.unsplash.com/random/200x200?sig=1" />
+                {
+                  postsInfo.map((postinfo) => (
+                    <div className="User__postsInfoPost">
+                      <img src={postinfo.imageURL} alt={profile} />
+                      <div className="post__meta">
+                        <div className="post__metaLike"><div>{postinfo.likes.length}</div><FavoriteBorderIcon /></div>
+                        <div className="post__metaComments"><div>{postinfo.comments.length}</div><CommentOutlinedIcon /></div>
+                      </div>
+                    </div>
+                  ))
+                }
+
+
+
+
               </div>
             </div>
 
@@ -137,7 +168,7 @@ function UserProfile({ crntuser }) {
             {
               profileInfo.followers.map((follower) => (
                 <Link to={"/user/"+follower} >
-                <div className={"User__follower " +follower} onClick={() => setOpenFollowers(false)}>
+                <div className={"User__follower " +follower}>
                   <div className="User__followerAvatar">
                     <Avatar src="https://google.com" alt={follower} />
                   </div>
