@@ -46,13 +46,42 @@
 .dummy{
   color: rgba(0,0,0,0);
   background-image: linear-gradient(45deg,gray,lightgray,gray);
-  /* animation: dummyRoll infinite 2s linear; */
   border-width: 2px;
   border-style: solid;
   border-top: gray;
   border-right: lightgray;
   border-bottom: gray;
   border-left: lightgray;
+}
+.post__imageSection{
+  position: relative;
+}
+.post__imageLikeAnimation{
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  /* background-color: red; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  opacity: 0;
+  fill: red;
+}
+.animate_like{
+  animation: likeing 1s linear;
+}
+@keyframes likeing {
+  0%{
+    opacity: 0;
+
+    transform:  translate(-50%,-50%) scale(.5);
+  }80%{
+    opacity: 1;
+    transform: translate(-50%,-50%) scale(1.5);
+  }100%{
+    opacity: 0;
+    transform:  translate(-50%,-50%) scale(0);
+  }
 }
 
 .dummyImage{
